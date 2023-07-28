@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="main flex">
-        <div class="login-container flex">
+        <div class="login-container main-body flex" id="main-container">
             <h1>Login</h1>
             <div class="input-container flex">
                 <div><label for="email">Email</label></div>
@@ -16,11 +16,20 @@
             </div>
             <div class="input-container flex">
                 <div><label for="password">Password</label></div>
-                <input type="password" name="password" id="password" placeholder="password" class="input-login">
+                <input type="password" name="password" id="password-login" placeholder="password" class="input-login">
             </div>
-            <button class="login-button">Login</button>
+            <button class="login-button" id="login-button">Login</button>
             <h4>Don't have an account? <a href="src/pages/register.html" class="register-link">Register</a></h4>
         </div>
+        <div class="model main-body" id="model">
+            <h1 id="model-h1"></h1>
+            <h4 id="model-h4"></h4>
+            <button class="login-button" id="login-back">Back</button>
+        </div>
     </div>
+    <script src="src/scripts/script.js"></script>
+    <script>
+        pages.loadPage("index");
+    </script>
 </body>
 </html>
