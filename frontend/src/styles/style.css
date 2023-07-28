@@ -46,6 +46,16 @@ body{
 ::placeholder{
     color: #F6FEAA;
 }
+.register-link{
+    text-decoration: none;
+    color: #C1DBE3;
+}
+.register-link:hover{
+    color: #F6FEAA;
+}
+.register-link:active{
+    color: #947EB0;
+}
 @media screen and (max-width: 440px) {
     .login-button{
         width: 50%;
