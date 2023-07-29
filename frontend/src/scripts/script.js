@@ -88,6 +88,12 @@ pages.page_dashboard = () => {
             normal[i].style.display = "flex"
         })
     }
+
+    const menu = pages.getElement("menu")
+    const drop = pages.getElement("drop-down")
+    const list_items = document.getElementsByClassName("drop-down-items")
+    
+    pages.handleNavbar(menu, drop, list_items)
 }
 pages.page_favorite = () => {
     const link = document.getElementsByClassName("navbar-link")
@@ -95,6 +101,12 @@ pages.page_favorite = () => {
     link[0].style.textDecoration  = "none"
     link[1].style.textDecoration  = "underline"
     link[2].style.textDecoration  = "none"
+
+    const menu = pages.getElement("menu")
+    const drop = pages.getElement("drop-down")
+    const list_items = document.getElementsByClassName("drop-down-items")
+    
+    pages.handleNavbar(menu, drop, list_items)
 }
 pages.page_cart = () => {
     const link = document.getElementsByClassName("navbar-link")
@@ -102,6 +114,24 @@ pages.page_cart = () => {
     link[0].style.textDecoration  = "none"
     link[1].style.textDecoration  = "none"
     link[2].style.textDecoration  = "underline"
+
+    const menu = pages.getElement("menu")
+    const drop = pages.getElement("drop-down")
+    const list_items = document.getElementsByClassName("drop-down-items")
+    
+    pages.handleNavbar(menu, drop, list_items)
+}
+
+pages.handleNavbar = (menu, drop , drop_items) => {
+    menu.addEventListener('click',function(){
+        console.log("menu clicked")
+        drop.style.display = "flex"
+    })
+    for(let i =0;i<drop_items.length;i++){
+        drop_items[i].addEventListener('click', function(){
+            drop.style.display = "none"
+        })
+    }
 }
 pages.loadPage = (page) => {
     eval("pages.page_" + page + "();")
