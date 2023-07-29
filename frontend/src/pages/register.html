@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/style.css">
     <title>Register</title>
 </head>
 <body>
-    
+    <div class="main flex">
+        <div class="login-container main-body signup flex">
+            <h1>Signup</h1>
+            <div class="input-container input-signup flex">
+                <div><label for="first_name">First Name</label></div>
+                <input type="text" name="first_name" id="first-name-signup" placeholder="first name" class="input-login">
+            </div>
+            <div class="input-container input-signup flex">
+                <div><label for="last_name">Last Name</label></div>
+                <input type="text" name="last_name" id="last-name-signup" placeholder="last name" class="input-login">
+            </div>
+            <div class="input-container input-signup flex">
+                <div><label for="email">Email</label></div>
+                <input type="email" name="email" id="email-signup" placeholder="email" class="input-login">
+            </div>
+            <div class="input-container input-signup flex">
+                <div><label for="password">Password</label></div>
+                <input type="password" name="password" id="password-signup" placeholder="password" class="input-login">
+            </div>
+            <div class="role flex">
+                <h4>Role</h4>
+                <div><i class="arrow down"></i></div>
+            </div>
+            <button class="login-button">Login</button>
+        </div>
+    </div>
 </body>
 </html>

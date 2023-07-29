@@ -19,16 +19,22 @@ body{
 }
 .input-container{
     width: 80%;
-    height: 15%;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+}
+.input-signup{
+    height: 12%;
+}
+.input-login-container{
+    height: 15%;
 }
 .input-login{
     height: 100%;
     width: 100%;
     background-color: #655356;
     color: #F6FEAA;
+    padding-left: 3%;
 }
 .login-button{
     width: 20%;
@@ -58,12 +64,36 @@ body{
     justify-content: space-around;
     box-shadow:  3px 5px  #947EB0, 0 2px 6px 2px #947EB0;
 }
+.signup{
+    height: 80%;
+}
 .model{
     background-color: #F6FEAA;
     color: #373737;
     display: none;
     justify-content: center;
 }
+.role{
+    width: 50%;
+    height: 8%;
+    align-items: center;
+    align-content: baseline;
+    justify-content: space-between;
+    background-color: #655356;
+    padding: 0 3% 0 3%;
+    
+}
+.arrow {
+    border: solid #F6FEAA;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    
+  }
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
 @media screen and (max-width: 440px) {
     .login-button{
         width: 50%;
