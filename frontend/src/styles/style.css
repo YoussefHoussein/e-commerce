@@ -74,14 +74,15 @@ body{
     justify-content: center;
 }
 .role{
-    width: 50%;
+    width: 30%;
     height: 8%;
     align-items: center;
     align-content: baseline;
     justify-content: space-between;
     background-color: #655356;
     padding: 0 3% 0 3%;
-    
+    align-self: flex-start;
+    margin-left: 10%;
 }
 .arrow {
     border: solid #F6FEAA;
@@ -90,13 +91,29 @@ body{
     padding: 3px;
     
   }
-.down {
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+.role-choose{
+    border-left: 2px dashed #F6FEAA;
+    padding-left: 5%;
+    display: none;
+}
+.choose{
+    border-bottom: 1px dashed #F6FEAA;
+}
+@media screen and (max-width: 900px) {
+    .role{
+        width: 50%;
+    }
   }
-@media screen and (max-width: 440px) {
+@media screen and (max-width: 538px) {
     .login-button{
         width: 50%;
         height: 2.5rem;
+    }
+    .role{
+        width: 70%;
     }
   }

@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="main flex">
-        <div class="login-container main-body signup flex">
+        <div class="login-container main-body signup flex" id="signup-container">
             <h1>Signup</h1>
             <div class="input-container input-signup flex">
                 <div><label for="first_name">First Name</label></div>
@@ -26,12 +26,25 @@
                 <div><label for="password">Password</label></div>
                 <input type="password" name="password" id="password-signup" placeholder="password" class="input-login">
             </div>
-            <div class="role flex">
+            <div class="role flex" id="role">
                 <h4>Role</h4>
-                <div><i class="arrow down"></i></div>
+                <div><i class="arrow right"></i></div>
+                <div class="role-choose" id="role-choose">
+                    <div class="choose" id="admin">Admin</div>
+                    <div class="choose" id="user">User</div>
+                </div>
             </div>
-            <button class="login-button">Login</button>
+            <button class="login-button" id="button-register">Login</button>
+        </div>
+        <div class="model main-body" id="model-signup">
+            <h1 id="model-h1-signup"></h1>
+            <h4 id="model-h4-signup"></h4>
+            <button class="login-button" id="signup-back">Back</button>
         </div>
     </div>
+    <script src="../scripts/script.js"></script>
+    <script>
+        pages.loadPage("register");
+    </script>
 </body>
 </html>
