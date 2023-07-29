@@ -144,8 +144,15 @@ body{
     align-items: center;
     justify-content: center;
 }
+.navbar{
+    width: 100vw;
+    height: 7rem;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #01295F;
+}
 .dash{
-    width: 100%;
+    width: 100vw;
     align-items: center;
     justify-content: center;
 }
@@ -158,6 +165,25 @@ body{
     height: 90%;
     width: 20%;
     border-radius: 2%;
+}
+.links-container{
+    width: 20%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+a{
+    text-decoration: none;
+    color: #F6FEAA;
+}
+a:hover{
+    color: #947EB0;
+}
+a:active{
+    color: #fce694;
+}
+.dashboard-link{
+    text-decoration: underline;
 }
 @media screen and (max-width: 900px) {
     .role{
