@@ -71,7 +71,19 @@ pages.page_register = () => {
 }
 
 pages.page_dashboard = () => {
-    console.log("hi from dashboard")
+    const normal = document.getElementsByClassName("normal")
+    const hover = document.getElementsByClassName("hover")
+
+    for(let i =0 ; i< normal.length;i++){
+        normal[i].addEventListener('mouseover',function(){
+            hover[i].style.display = "flex"
+            normal[i].style.display = "none"
+        })
+        normal[i].addEventListener('mouseout',function(){
+            hover[i].style.display = "none"
+            normal[i].style.display = "flex"
+        })
+    }
 }
 pages.loadPage = (page) => {
     eval("pages.page_" + page + "();")
