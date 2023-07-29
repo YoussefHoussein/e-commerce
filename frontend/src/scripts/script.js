@@ -73,7 +73,11 @@ pages.page_register = () => {
 pages.page_dashboard = () => {
     const normal = document.getElementsByClassName("normal")
     const hover = document.getElementsByClassName("hover")
+    const link = document.getElementsByClassName("navbar-link")
 
+    link[0].style.textDecoration  = "underline"
+    link[1].style.textDecoration  = "none"
+    link[2].style.textDecoration  = "none"
     for(let i =0 ; i< normal.length;i++){
         normal[i].addEventListener('mouseover',function(){
             hover[i].style.display = "flex"
@@ -84,6 +88,20 @@ pages.page_dashboard = () => {
             normal[i].style.display = "flex"
         })
     }
+}
+pages.page_favorite = () => {
+    const link = document.getElementsByClassName("navbar-link")
+
+    link[0].style.textDecoration  = "none"
+    link[1].style.textDecoration  = "underline"
+    link[2].style.textDecoration  = "none"
+}
+pages.page_cart = () => {
+    const link = document.getElementsByClassName("navbar-link")
+
+    link[0].style.textDecoration  = "none"
+    link[1].style.textDecoration  = "none"
+    link[2].style.textDecoration  = "underline"
 }
 pages.loadPage = (page) => {
     eval("pages.page_" + page + "();")

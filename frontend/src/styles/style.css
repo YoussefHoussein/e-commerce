@@ -182,9 +182,6 @@ a:hover{
 a:active{
     color: #fce694;
 }
-.dashboard-link{
-    text-decoration: underline;
-}
 @media screen and (max-width: 900px) {
     .role{
         width: 50%;
