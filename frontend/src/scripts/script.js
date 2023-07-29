@@ -18,6 +18,7 @@ pages.page_index = () => {
             model_h1.innerHTML = "Warning !!"
             model_h4.innerHTML = "You should fill all the fields"
         }
+        
     })
     back.addEventListener('click',function () {
         window.location.href = "index.html"
@@ -48,6 +49,7 @@ pages.page_register = () => {
             model_h1.innerHTML = "Warning !!"
             model_h4.innerHTML = "You should fill all the fields"
         }
+
     })
     back.addEventListener('click',function () {
         window.location.href = "register.html"
@@ -67,8 +69,9 @@ pages.page_register = () => {
         })
     })
 }
-pages.warningEmpty = () => {
 
+pages.page_dashboard = () => {
+    console.log("hi from dashboard")
 }
 pages.loadPage = (page) => {
     eval("pages.page_" + page + "();")
