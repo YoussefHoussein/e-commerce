@@ -182,6 +182,38 @@ a:hover{
 a:active{
     color: #fce694;
 }
+.favorite-container{
+    width: 100%;
+    flex-direction: column;
+    margin-top: 5%;
+}
+.favorite-card{
+    width: 100%;
+    height: 10rem;
+    align-items: center;
+    justify-content: space-around;
+    border-top: 5px dashed #F6FEAA;
+}
+.favorite-product-image{
+    width: 9rem;
+    height: 9rem;
+    border-radius: 50%;
+}
+.favorite-name{
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+.img-container{
+    width: 15%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+.favorite-description{
+    width: 70%;
+}
 @media screen and (max-width: 900px) {
     .role{
         width: 50%;
