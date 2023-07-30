@@ -94,6 +94,10 @@ pages.page_dashboard = () => {
     const list_items = document.getElementsByClassName("drop-down-items")
     
     pages.handleNavbar(menu, drop, list_items)
+
+    list_items[0].style.textDecoration  = "underline"
+    list_items[1].style.textDecoration  = "none"
+    list_items[2].style.textDecoration  = "none"
 }
 pages.page_favorite = () => {
     const link = document.getElementsByClassName("navbar-link")
@@ -107,6 +111,9 @@ pages.page_favorite = () => {
     const list_items = document.getElementsByClassName("drop-down-items")
     
     pages.handleNavbar(menu, drop, list_items)
+    list_items[0].style.textDecoration  = "none"
+    list_items[1].style.textDecoration  = "underline"
+    list_items[2].style.textDecoration  = "none"
 }
 pages.page_cart = () => {
     const link = document.getElementsByClassName("navbar-link")
@@ -120,6 +127,9 @@ pages.page_cart = () => {
     const list_items = document.getElementsByClassName("drop-down-items")
     
     pages.handleNavbar(menu, drop, list_items)
+    list_items[0].style.textDecoration  = "none"
+    list_items[1].style.textDecoration  = "none"
+    list_items[2].style.textDecoration  = "underline"
 }
 
 pages.handleNavbar = (menu, drop , drop_items) => {
