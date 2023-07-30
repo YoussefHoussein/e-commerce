@@ -280,6 +280,9 @@ a:active{
 .input-image{
     display: none;
 }
+.id-field{
+    display: none;
+}
 @media screen and (max-width: 900px) {
     .role{
         width: 50%;
