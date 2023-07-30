@@ -41,13 +41,40 @@ pages.page_register = () => {
     const choose = pages.getElement("role-choose")
     const admin  =pages.getElement("admin")
     const user = pages.getElement("user")
-    const role_choosed = false
+    let role_choosed = false
+    let role_id =0;
     button_login.addEventListener('click', function(){
         if(!first_name || !last_name || !email || !password || !role_choosed){
             main_container.style.display = "none"
             model.style.display = "flex"
             model_h1.innerHTML = "Warning !!"
             model_h4.innerHTML = "You should fill all the fields"
+        }
+        else{
+            const data = new FormData()
+            data.append("first_name",first_name)
+            data.append("last_name",last_name)
+            data.append("email",email)
+            data.append("password",password)
+            data.append("role_id",role_id)
+
+            fetch("sign_up_url" , {
+                method: "POST",
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+              if(data.status == "success"){
+                localStorage.setItem('user_id',data.id)
+                if(data.role_id == 1){
+                    window.location.href = "admin.html"
+                }
+                else{
+                    window.location.href = "dashboard.html"
+                }
+              }
+            })
+            .catch(error => console.log(error))
         }
 
     })
@@ -61,11 +88,13 @@ pages.page_register = () => {
             event.stopImmediatePropagation();
             choose.style.display = "none"
             role_choosed = true
+            role_id=1
         })
         user.addEventListener('click', function(event){
             event.stopImmediatePropagation();
             choose.style.display = "none"
             role_choosed = true
+            role_id=2
         })
     })
 }
