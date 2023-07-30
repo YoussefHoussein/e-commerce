@@ -26,6 +26,9 @@ body{
 .input-signup{
     height: 12%;
 }
+.add-input{
+    height: 8%;
+}
 .input-login-container{
     height: 15%;
 }
@@ -57,15 +60,21 @@ body{
 }
 .main-body{
     width: 40%;
-    height: 60%;
     border-radius: 2%;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     box-shadow:  3px 5px  #947EB0, 0 2px 6px 2px #947EB0;
 }
+.login{
+    height: 60%;
+}
 .signup{
     height: 80%;
+}
+.add-product{
+    height: 120vh;
+    margin-top: 20%;
 }
 .model{
     background-color: #F6FEAA;
@@ -252,6 +261,23 @@ a:active{
 .add{
     align-items: center;
     justify-content: center;
+}
+.upload-image{
+    width: 47%;
+    height: 30%;
+    border: 2px solid black; 
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+    box-shadow:  3px 5px  #947EB0, 0 2px 6px 2px #947EB0;
+}
+.category{
+    height: 6%;
+}
+.input-image{
+    display: none;
 }
 @media screen and (max-width: 900px) {
     .role{

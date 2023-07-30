@@ -154,6 +154,61 @@ pages.page_admin = () => {
     })
 }
 
+pages.page_add_product = () => {
+    const image_holder = pages.getElement("image-holder")
+    const image_input = pages.getElement("input-image")
+    let image =""
+    const upload_text = pages.getElement("text-upload")
+    let image_uploaded = image_holder.style.backgroundImage != ''
+    image_holder.addEventListener('click',function(){
+        image_input.click()
+    })
+    image_input.addEventListener('change',function(){
+        const reader = new FileReader()
+        reader.addEventListener('load',function(){
+            image = reader.result
+            upload_text.style.display="none"
+            image_uploaded =true
+            image_holder.style.backgroundImage = `url(${image})`
+        })
+        reader.readAsDataURL(this.files[0])
+    })
+    const cat = pages.getElement("cat")
+    const cat_menu = pages.getElement("cat-menu")
+    const cat_items = document.getElementsByClassName("choose-cat")
+    let cat_choosed = false
+    cat.addEventListener('click',function(){
+        cat_menu.style.display = "block"
+        for(let i = 0; i<cat_items.length ; i++){
+            cat_items[i].addEventListener('click',function(event){
+                event.stopImmediatePropagation();
+                cat_menu.style.display = "none"
+                cat_choosed =true
+            })
+        }
+    })
+    const product_name = pages.getElement('name-product').value
+    const product_price = pages.getElement('price').value
+    const product_description = pages.getElement('description').value
+    const add_button = pages.getElement('add-button')
+    const container = pages.getElement('product-add-container')
+    const model =pages.getElement('model-add-product')
+    const header = pages.getElement('model-h1-add')
+    const text = pages.getElement('model-h4-add')
+    const button_back = pages.getElement('add-back')
+    add_button.addEventListener('click',function(){
+        if(!product_name || !product_price || !product_description || !image_uploaded || !cat_choosed){
+            container.style.display ="none"
+            model.style.display ="flex"
+            header.innerHTML = "Warning !!"
+            text.innerHTML = "You should fill all the fields"
+        }
+    })
+    button_back.addEventListener('click',function(){
+        window.location.href = "add_product.html"
+    })
+
+}
 pages.handleNavbar = (menu, drop , drop_items) => {
     menu.addEventListener('click',function(){
         console.log("menu clicked")
