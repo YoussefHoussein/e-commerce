@@ -100,9 +100,9 @@ body{
     padding: 3px;
     
   }
-.right {
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }
 .role-choose{
     border-left: 2px dashed #F6FEAA;
