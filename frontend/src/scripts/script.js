@@ -89,8 +89,8 @@ pages.page_register = () => {
             .then(data => {
               if(data.status == "success"){
                 localStorage.setItem('user_id',data.id)
-                localStorage.setItem('cart_id',cart.id)
-                localStorage.setItem('favorite_id',favorite.id)
+                localStorage.setItem('cart_id',data.cart_id)
+                localStorage.setItem('favorite_id',data.favorite_id)
                 if(data.role_id == 1){
                     window.location.href = "admin.html"
                 }
@@ -170,7 +170,6 @@ pages.page_dashboard = async () => {
         const response = await fetch("getAllProductsUrl")
         const json = await response.json()
         json.forEach(product => {
-            const product_id = product.id;
             const name = product.name;
             const price = product.price;
             const description = product.description;
@@ -178,7 +177,7 @@ pages.page_dashboard = async () => {
             const image = URL.createObjectURL(product);
             let new_item = pages.createDashboardCard(name,price,image,description,category)
             dashboard.innerHTML += new_item
-            localStorage.setItem('product_id',product_id)
+
         });
         
       }
@@ -381,6 +380,30 @@ pages.createFavoriteCard = (name,image,description,category) =>{
     `
 }
 pages.page_favorite = () => {
+    const favorite_container = pages.getElement("favorite-container")
+    const fav_id = localStorage.getItem("favorite_id")
+    const data = new FormData()
+    data.append("favorite_id",fav_id)
+
+    fetch("url for get  the product from favorite", {
+        method : "POST",
+        body: data
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status == "success"){
+            const name = data.name
+            const category = data.category
+            const image = data.image
+            const description = data.description
+            favorite_container.innerHTML += pages.createFavoriteCard(name,image,description,category)
+
+        }
+    })
+    .catch(error => console.log(error))
+
+
+
     const link = document.getElementsByClassName("navbar-link")
 
     link[0].style.textDecoration  = "none"
@@ -396,7 +419,55 @@ pages.page_favorite = () => {
     list_items[1].style.textDecoration  = "underline"
     list_items[2].style.textDecoration  = "none"
 }
+pages.createCartCard = (name,price,image,description,category) =>{
+    return `
+    <div class="favorite-card flex">
+    <div class="img-container flex">
+        <img src="${image}" alt="product image" class="favorite-product-image">
+        <div class="favorite-name flex">
+        <p class="name">${name}</p>
+        <p class="category">${category}</p>
+        </div>
+    </div>
+    <div class="favorite-description">
+        ${description}
+    </div>
+    <div class="price flex">
+        <div>${price}</div>
+        <div>100$</div>
+    </div>
+    <div class="icons flex">
+        <img src="../images/love.png" alt="favortie">
+        <img src="../images/shopping-cart (1).png" alt="cart">
+    </div>
+</div>
+    `
+}
 pages.page_cart = () => {
+    const cart = pages.getElement("cart_card")
+    const cart_id = localStorage.getItem("cart_id")
+
+    const data = new FormData()
+    data.append("cart_id",cart_id)
+
+    fetch("url for get  the product from cart", {
+        method : "POST",
+        body: data
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status == "success"){
+            const name = data.name
+            const price =data.price
+            const category = data.category
+            const image = data.image
+            const description = data.description
+            cart.innerHTML += pages.createCartCard(name,price,image,description,category)
+
+        }
+    })
+    .catch(error => console.log(error))
+
     const link = document.getElementsByClassName("navbar-link")
 
     link[0].style.textDecoration  = "none"
