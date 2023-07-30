@@ -89,6 +89,8 @@ pages.page_register = () => {
             .then(data => {
               if(data.status == "success"){
                 localStorage.setItem('user_id',data.id)
+                localStorage.setItem('cart_id',cart.id)
+                localStorage.setItem('favorite_id',favorite.id)
                 if(data.role_id == 1){
                     window.location.href = "admin.html"
                 }
