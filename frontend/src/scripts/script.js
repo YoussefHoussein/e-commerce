@@ -134,7 +134,8 @@ pages.page_cart = () => {
 pages.page_admin = () => {
     const normal = document.getElementsByClassName("normal")
     const hover = document.getElementsByClassName("hover")
-    
+    const add = document.getElementById("add-product")
+    const edit = document.getElementById("edit")
     for(let i =0 ; i< normal.length;i++){
         normal[i].addEventListener('mouseover',function(){
             hover[i].style.display = "flex"
@@ -145,6 +146,12 @@ pages.page_admin = () => {
             normal[i].style.display = "flex"
         })
     }
+    add.addEventListener('click', function(){
+        window.location.href = "add_product.html"
+    })
+    edit.addEventListener('click',function(){
+        window.location.href = "edit_product.html"
+    })
 }
 
 pages.handleNavbar = (menu, drop , drop_items) => {
