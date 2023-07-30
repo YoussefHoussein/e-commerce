@@ -151,7 +151,7 @@ pages.createDashboardCard = (name,price,image,description,category) =>{
 pages.hover = () =>{
     const normal = document.getElementsByClassName("normal")
     const hover = document.getElementsByClassName("hover")
-    const link = document.getElementsByClassName("navbar-link")
+    
     for(let i =0 ; i< normal.length;i++){
         normal[i].addEventListener('mouseover',function(){
             hover[i].style.display = "flex"
@@ -164,52 +164,178 @@ pages.hover = () =>{
     }
 }
 pages.page_dashboard = async () => {
+    
     const dashboard = pages.getElement("dash-board-container")
-    // try{
-    //     const response = await fetch("getAllProductsUrl")
-    //     const json = await response.json()
-    //     json.forEach(product => {
-    //         const name = product.name;
-    //         const price = product.price;
-    //         const description = product.description;
-    //         const category = product.category
-    //         const image = URL.createObjectURL(product);
-    //         let new_item = pages.createDashboardCard(name,price,image,description,category)
-    //         dashboard.innerHTML += new_item
-            
-    //     });
+    try{
+        const response = await fetch("getAllProductsUrl")
+        const json = await response.json()
+        json.forEach(product => {
+            const product_id = product.id;
+            const name = product.name;
+            const price = product.price;
+            const description = product.description;
+            const category = product.category
+            const image = URL.createObjectURL(product);
+            let new_item = pages.createDashboardCard(name,price,image,description,category)
+            dashboard.innerHTML += new_item
+            localStorage.setItem('product_id',product_id)
+        });
         
-    //   }
-    //   catch(e){
-    //     console.log("Error: "+e)
-    //   }
+      }
+      catch(e){
+        console.log("Error: "+e)
+      }
+    
+    let isFavorite = false
+    const data = new FormData()
+    data.append("id",localStorage.getItem('product_id'))
+
+    fetch("url for search the product in favorite", {
+        method : "POST",
+        body: data
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data == 1 ){
+        isFavorite =true
+      }
+      else{
+        isFavorite = false
+      }
+    })
+    .catch(error => console.log(error))
 
     const fav = pages.getElement("favorite-image")
+
+    if(isFavorite){
+        fav.src = "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
+    }
+    else{
+        fav.src = "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
+    }
+    
     fav.addEventListener('click',function(){
-        let fav_src = fav.src
-        if(fav_src == "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"){
-            fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
-            pages.hover()
+        
+        if(!isFavorite){
+            const favorite_id = localStorage.getItem("favorite_id")
+            const product_id = localStorage.getItem("product_id")
+            const data =  new FormData()
+            data.append("cart_id",cart_id)
+            data.append("product_id",favorite_id)
+
+            fetch("url for insert the product into favorite", {
+                method : "POST",
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status == "success"){
+                    fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
+                    isFavorite = true
+                    pages.hover()
+                }
+            })
+            .catch(error => console.log(error))
+            
         }
         else{
-            fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
-            pages.hover()
+            const product_id = localStorage.getItem("product_id")
+            const data =  new FormData()
+            data.append("product_id",product_id)
+
+            fetch("url for remove the product from favorite", {
+                method : "POST",
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status == "success"){
+                    fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
+                    isFavorite = false
+                    pages.hover()
+                }
+            })
+            .catch(error => console.log(error))
+            
         }
     })
+
+    let inCart = false
+    
+
+    fetch("url for search the product in cart", {
+        method : "POST",
+        body: data
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data == 1 ){
+        inCart =true
+      }
+      else{
+        inCart = false
+      }
+    })
+    .catch(error => console.log(error))
+
     const cart = pages.getElement("cart-image")
+    if(inCart){
+        cart.src= "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart (1).png"
+    }
+    else{
+        cart.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"
+    }
     cart.addEventListener('click',function(){
-        let cart_src = cart.src
-        if(cart_src == "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"){
-            cart.src= "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart (1).png"
-            pages.hover()
+        
+        if(!inCart){
+            
+            const cart_id = localStorage.getItem("cart_id")
+            const product_id = localStorage.getItem("product_id")
+            const data =  new FormData()
+            data.append("cart_id",cart_id)
+            data.append("product_id",product_id)
+
+            fetch("url for insert the product into cart", {
+                method : "POST",
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status == "success"){
+                    cart.src= "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart (1).png"
+                    inCart = true
+                    pages.hover()
+                }
+            })
+            .catch(error => console.log(error))
+            
         }
         else{
-            cart.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"
-            pages.hover()
+            const product_id = localStorage.getItem("product_id")
+            const data =  new FormData()
+            data.append("product_id",product_id)
+
+            fetch("url for remove the product from cart", {
+                method : "POST",
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status == "success"){
+                    cart.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"
+                    inCart =false
+                    pages.hover()
+                }
+            })
+            .catch(error => console.log(error))
+            
+            
         }
     })
     
     pages.hover()
+
+    const link = document.getElementsByClassName("navbar-link")
     link[0].style.textDecoration  = "underline"
     link[1].style.textDecoration  = "none"
     link[2].style.textDecoration  = "none"
