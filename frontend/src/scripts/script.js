@@ -123,8 +123,51 @@ pages.page_register = () => {
         })
     })
 }
-
-pages.page_dashboard = () => {
+pages.createDashboardCard = (name,price,image,description,category) =>{
+    return `
+    <div class="card normal login-container flex">
+                <img src="${image}" alt="product-image" class="product-image">
+                <h1>${name}</h1>
+	            <h1>${price}</h1>
+            </div>
+            <div class="card login-container hover">
+                <div class="card-header flex">
+                    <img src="${image}" alt="hover-image" class="hover-image">
+                    <h1>${name}</h1>
+                </div>
+                <div class="card-description flex">
+                    <p>
+                     ${description}
+                    </p>
+                </div>
+                <div class="card-header footer flex">
+                    <h1>${category}</h1>
+                    <img src="../images/love.png" alt="favorite">
+                    <img src="../images/shopping-cart.png" alt="cart">
+                </div>
+            </div>
+    `
+}
+pages.page_dashboard = async () => {
+    const dashboard = pages.getElement("dash-board-container")
+    try{
+        const response = await fetch("getAllProductsUrl")
+        const json = await response.json()
+        json.forEach(product => {
+            const name = product.name;
+            const price = product.price;
+            const description = product.description;
+            const category = product.category
+            const image = URL.createObjectURL(product);
+            let new_item = pages.createDashboardCard(name,price,image,description,category)
+            dashboard.innerHTML += new_item
+            
+        });
+        
+      }
+      catch(e){
+        console.log("Error: "+e)
+      }
     const normal = document.getElementsByClassName("normal")
     const hover = document.getElementsByClassName("hover")
     const link = document.getElementsByClassName("navbar-link")
