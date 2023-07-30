@@ -131,6 +131,21 @@ pages.page_cart = () => {
     list_items[1].style.textDecoration  = "none"
     list_items[2].style.textDecoration  = "underline"
 }
+pages.page_admin = () => {
+    const normal = document.getElementsByClassName("normal")
+    const hover = document.getElementsByClassName("hover")
+    
+    for(let i =0 ; i< normal.length;i++){
+        normal[i].addEventListener('mouseover',function(){
+            hover[i].style.display = "flex"
+            normal[i].style.display = "none"
+        })
+        normal[i].addEventListener('mouseout',function(){
+            hover[i].style.display = "none"
+            normal[i].style.display = "flex"
+        })
+    }
+}
 
 pages.handleNavbar = (menu, drop , drop_items) => {
     menu.addEventListener('click',function(){
