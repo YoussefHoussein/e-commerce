@@ -155,6 +155,13 @@ pages.page_admin = () => {
 }
 
 pages.page_add_product = () => {
+    pages.handleAdminEditAdd()
+
+}
+pages.page_edit_product = () => {
+    pages.handleAdminEditAdd()
+}
+pages.handleAdminEditAdd = () => {
     const image_holder = pages.getElement("image-holder")
     const image_input = pages.getElement("input-image")
     let image =""
@@ -207,7 +214,6 @@ pages.page_add_product = () => {
     button_back.addEventListener('click',function(){
         window.location.href = "add_product.html"
     })
-
 }
 pages.handleNavbar = (menu, drop , drop_items) => {
     menu.addEventListener('click',function(){
