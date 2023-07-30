@@ -128,12 +128,12 @@ pages.createDashboardCard = (name,price,image,description,category) =>{
     <div class="card normal login-container flex">
                 <img src="${image}" alt="product-image" class="product-image">
                 <h1>${name}</h1>
-	            <h1>${price}</h1>
             </div>
             <div class="card login-container hover">
                 <div class="card-header flex">
                     <img src="${image}" alt="hover-image" class="hover-image">
                     <h1>${name}</h1>
+                    <h1>${price}</h1>
                 </div>
                 <div class="card-description flex">
                     <p>
