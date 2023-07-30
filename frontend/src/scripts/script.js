@@ -18,6 +18,29 @@ pages.page_index = () => {
             model_h1.innerHTML = "Warning !!"
             model_h4.innerHTML = "You should fill all the fields"
         }
+        else{
+            const data = new FormData()
+            data.append("email",email)
+            data.append("password",password)
+
+            fetch("login_url" , {
+                method: "POST",
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+              if(data.status == "success"){
+                localStorage.setItem('user_id',data.id)
+                if(data.role_id == 1){
+                    window.location.href = "admin.html"
+                }
+                else{
+                    window.location.href = "dashboard.html"
+                }
+              }
+            })
+            .catch(error => console.log(error))
+        }
         
     })
     back.addEventListener('click',function () {
