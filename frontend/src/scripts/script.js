@@ -142,36 +142,74 @@ pages.createDashboardCard = (name,price,image,description,category) =>{
                 </div>
                 <div class="card-header footer flex">
                     <h1>${category}</h1>
-                    <img src="../images/love.png" alt="favorite">
-                    <img src="../images/shopping-cart.png" alt="cart">
+                    <img src="../images/love.png" alt="favorite" id="favorite-image">
+                    <img src="../images/shopping-cart.png" alt="cart" id="cart-image">
                 </div>
             </div>
     `
 }
-pages.page_dashboard = async () => {
-    const dashboard = pages.getElement("dash-board-container")
-    try{
-        const response = await fetch("getAllProductsUrl")
-        const json = await response.json()
-        json.forEach(product => {
-            const name = product.name;
-            const price = product.price;
-            const description = product.description;
-            const category = product.category
-            const image = URL.createObjectURL(product);
-            let new_item = pages.createDashboardCard(name,price,image,description,category)
-            dashboard.innerHTML += new_item
-            
-        });
-        
-      }
-      catch(e){
-        console.log("Error: "+e)
-      }
+pages.hover = () =>{
     const normal = document.getElementsByClassName("normal")
     const hover = document.getElementsByClassName("hover")
     const link = document.getElementsByClassName("navbar-link")
+    for(let i =0 ; i< normal.length;i++){
+        normal[i].addEventListener('mouseover',function(){
+            hover[i].style.display = "flex"
+            normal[i].style.display = "none"
+        })
+        normal[i].addEventListener('mouseleave',function(){
+            hover[i].style.display = "none"
+            normal[i].style.display = "flex"
+        })
+    }
+}
+pages.page_dashboard = async () => {
+    const dashboard = pages.getElement("dash-board-container")
+    // try{
+    //     const response = await fetch("getAllProductsUrl")
+    //     const json = await response.json()
+    //     json.forEach(product => {
+    //         const name = product.name;
+    //         const price = product.price;
+    //         const description = product.description;
+    //         const category = product.category
+    //         const image = URL.createObjectURL(product);
+    //         let new_item = pages.createDashboardCard(name,price,image,description,category)
+    //         dashboard.innerHTML += new_item
+            
+    //     });
+        
+    //   }
+    //   catch(e){
+    //     console.log("Error: "+e)
+    //   }
 
+    const fav = pages.getElement("favorite-image")
+    fav.addEventListener('click',function(){
+        let fav_src = fav.src
+        if(fav_src == "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"){
+            fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
+            pages.hover()
+        }
+        else{
+            fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
+            pages.hover()
+        }
+    })
+    const cart = pages.getElement("cart-image")
+    cart.addEventListener('click',function(){
+        let cart_src = cart.src
+        if(cart_src == "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"){
+            cart.src= "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart (1).png"
+            pages.hover()
+        }
+        else{
+            cart.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"
+            pages.hover()
+        }
+    })
+    
+    pages.hover()
     link[0].style.textDecoration  = "underline"
     link[1].style.textDecoration  = "none"
     link[2].style.textDecoration  = "none"
@@ -180,7 +218,7 @@ pages.page_dashboard = async () => {
             hover[i].style.display = "flex"
             normal[i].style.display = "none"
         })
-        normal[i].addEventListener('mouseout',function(){
+        normal[i].addEventListener('mouseleave',function(){
             hover[i].style.display = "none"
             normal[i].style.display = "flex"
         })
