@@ -360,6 +360,26 @@ pages.page_dashboard = async () => {
     list_items[1].style.textDecoration  = "none"
     list_items[2].style.textDecoration  = "none"
 }
+pages.createFavoriteCard = (name,image,description,category) =>{
+    return `
+    <div class="favorite-card flex">
+                <div class="img-container flex">
+                    <img src="${image}" alt="product image" class="favorite-product-image">
+                    <div class="favorite-name flex">
+                    <p class="name">${name}</p>
+                    <p class="category">${category}</p>
+                    </div>
+                </div>
+                <div class="favorite-description">
+                    ${description}
+                </div>
+                <div class="icons">
+                    <img src="../images/heart.png" alt="favortie">
+                    <img src="../images/shopping-cart.png" alt="cart">
+                </div>
+    </div>
+    `
+}
 pages.page_favorite = () => {
     const link = document.getElementsByClassName("navbar-link")
 
