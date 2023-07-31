@@ -3,8 +3,6 @@ const pages = {}
 pages.getElement = (id) => document.getElementById(id);
 
 pages.page_index = () => {
-    const email = pages.getElement("email-login").value
-    const password = pages.getElement("password-login").value
     const button_login = pages.getElement("login-button")
     const model = pages.getElement("model")
     const main_container = pages.getElement("main-container")
@@ -12,7 +10,9 @@ pages.page_index = () => {
     const model_h4 = pages.getElement("model-h4")
     const back = pages.getElement("login-back")
     button_login.addEventListener('click', function(){
-        if(!email || !password){
+        const email = pages.getElement("email-login").value
+        const password = pages.getElement("password-login").value
+        if(email =="" || password==""){
             main_container.style.display = "none"
             model.style.display = "flex"
             model_h1.innerHTML = "Warning !!"
@@ -23,20 +23,34 @@ pages.page_index = () => {
             data.append("email",email)
             data.append("password",password)
 
-            fetch("login_url" , {
+            fetch("http://127.0.0.1:8000/api/login" , {
                 method: "POST",
                 body: data
             })
             .then(response => response.json())
             .then(data => {
               if(data.status == "success"){
-                localStorage.setItem('user_id',data.id)
+                localStorage.setItem('user_id',data.user_id)
+                localStorage.setItem('cart_id',data.cart_id)
+                localStorage.setItem('favorite_id',data.favorite_id)
                 if(data.role_id == 1){
-                    window.location.href = "admin.html"
+                    window.location.href = "src/pages/admin.html"
                 }
                 else{
-                    window.location.href = "dashboard.html"
+                    window.location.href = "src/pages/dashboard.html"
                 }
+              }
+              else if( data.status == "Wrong Password"){
+                main_container.style.display = "none"
+                model.style.display = "flex"
+                model_h1.innerHTML = "Warning !!"
+                model_h4.innerHTML = "Wrong Password"
+              }
+              else{
+                main_container.style.display = "none"
+                model.style.display = "flex"
+                model_h1.innerHTML = "Warning !!"
+                model_h4.innerHTML = "User not exist."
               }
             })
             .catch(error => console.log(error))
@@ -104,14 +118,14 @@ pages.page_register = () => {
             data.append("password",password)
             data.append("role_id",role_id)
 
-            fetch("http://127.0.0.1:8000/api/getemail" , {
+            fetch("http://127.0.0.1:8000/api/signup" , {
                 method: "POST",
                 body: data
             })
             .then(response => response.json())
             .then(data => {
               if(data.status == "success"){
-                localStorage.setItem('user_id',data.id)
+                localStorage.setItem('user_id',data.user_id)
                 localStorage.setItem('cart_id',data.cart_id)
                 localStorage.setItem('favorite_id',data.favorite_id)
                 if(data.role_id == 1){
@@ -120,6 +134,12 @@ pages.page_register = () => {
                 else{
                     window.location.href = "dashboard.html"
                 }
+              }
+              else{
+                main_container.style.display = "none"
+                 model.style.display = "flex"
+                 model_h1.innerHTML = "Warning !!"
+                model_h4.innerHTML = "User already exists"
               }
             })
             .catch(error => console.log(error))
