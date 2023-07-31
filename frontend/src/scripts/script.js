@@ -50,10 +50,7 @@ pages.page_index = () => {
 }
 
 pages.page_register = () => {
-    const first_name =pages.getElement("first-name-signup").value
-    const last_name = pages.getElement("last-name-signup").value
-    const email = pages.getElement("email-signup").value
-    const password = pages.getElement("password-signup").value
+
     const role = pages.getElement("role")
     const button_login = pages.getElement("button-register")
     const main_container = pages.getElement("signup-container")
@@ -66,8 +63,34 @@ pages.page_register = () => {
     const user = pages.getElement("user")
     let role_choosed = false
     let role_id =0;
+    role.addEventListener('click', function(){
+        choose.style.display = "block"
+
+        admin.addEventListener('click', function(event){
+            event.stopImmediatePropagation();
+            choose.style.display = "none"
+            role_choosed = true
+            console.log(role_choosed)
+            role_id=1
+        })
+        user.addEventListener('click', function(event){
+            event.stopImmediatePropagation();
+            choose.style.display = "none"
+            role_choosed = true
+            role_id=2
+        })
+    })
     button_login.addEventListener('click', function(){
-        if(!first_name || !last_name || !email || !password || !role_choosed){
+        const first_name =pages.getElement('first-name-signup').value
+         const last_name = pages.getElement("last-name-signup").value
+        const email = pages.getElement("email-signup").value
+        const password = pages.getElement("password-signup").value
+        if(first_name == "" || last_name == "" || email=="" || password == "" || !role_choosed){
+            console.log(password)
+            console.log(first_name)
+            console.log(last_name)
+            console.log(email)
+            console.log(role_choosed)
             main_container.style.display = "none"
             model.style.display = "flex"
             model_h1.innerHTML = "Warning !!"
@@ -81,7 +104,7 @@ pages.page_register = () => {
             data.append("password",password)
             data.append("role_id",role_id)
 
-            fetch("sign_up_url" , {
+            fetch("http://127.0.0.1:8000/api/getemail" , {
                 method: "POST",
                 body: data
             })
@@ -106,22 +129,7 @@ pages.page_register = () => {
     back.addEventListener('click',function () {
         window.location.href = "register.html"
     })
-    role.addEventListener('click', function(){
-        choose.style.display = "block"
-
-        admin.addEventListener('click', function(event){
-            event.stopImmediatePropagation();
-            choose.style.display = "none"
-            role_choosed = true
-            role_id=1
-        })
-        user.addEventListener('click', function(event){
-            event.stopImmediatePropagation();
-            choose.style.display = "none"
-            role_choosed = true
-            role_id=2
-        })
-    })
+    
 }
 pages.createDashboardCard = (id,name,price,image,description,category) =>{
     return `
@@ -675,7 +683,56 @@ pages.page_cart = () => {
     list_items[1].style.textDecoration  = "none"
     list_items[2].style.textDecoration  = "underline"
 }
-pages.page_admin = () => {
+pages.createAdminCard = (id,name,price,description,category,image) => {
+    return `
+    <div id="container">
+                <div class="card normal login-container flex">
+                    <img src="${image}" alt="product-image" class="product-image">
+                    <h1>${name}</h1>
+                </div>
+                <div class="card login-container hover">
+                    <div class="card-header flex">
+                        <img src="../images/WhatsApp Image 2023-06-28 at 09.08.03.jpg" alt="hover-image" class="hover-image">
+                        <h1>${name}</h1>
+                        <h1>${price}</h1>
+                    </div>
+                    <div class="card-description flex">
+                        <p>
+                          ${description}
+                        </p>
+                    </div>
+                    <div class="card-header footer flex">
+                        <h1>${category}</h1>
+                        <img src="../images/pencil.png" alt="edit" id="edit">
+                        <img src="../images/delete.png" alt="delete" id="delete">
+                    </div>
+                </div>
+                <div class="id-field" id="id_field">${id}</div>
+            </div>
+    `
+}
+pages.page_admin = async () => {
+    const admin_dashboard = pages.getElement("admin-container")
+    try{
+        const response = await fetch("getAllProductsUrl")
+        const json = await response.json()
+        json.forEach(product => {
+            const id =product.id;
+            const name = product.name;
+            const price = product.price;
+            const description = product.description;
+            const category = product.category
+            const image = URL.createObjectURL(product);
+            let new_item = pages.createAdminCard(id,name,price,image,description,category)
+            admin_dashboard.innerHTML += new_item
+
+        })
+    }
+      catch(e){
+        console.log("Error: "+e)
+      }
+
+
     const normal = document.getElementsByClassName("normal")
     const hover = document.getElementsByClassName("hover")
     const add = document.getElementById("add-product")
