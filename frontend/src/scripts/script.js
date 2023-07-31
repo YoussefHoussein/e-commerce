@@ -197,7 +197,7 @@ pages.page_dashboard = async () => {
     let inCart = false
     const dashboard = pages.getElement("dash-board-container")
     try{
-        const response = await fetch("getAllProductsUrl")
+        const response = await fetch("http://127.0.0.1:8000/api/getproducts")
         const json = await response.json()
         json.forEach(product => {
             const id =product.id;
@@ -205,7 +205,7 @@ pages.page_dashboard = async () => {
             const price = product.price;
             const description = product.description;
             const category = product.category
-            const image = URL.createObjectURL(product);
+            const image = product.image
             let new_item = pages.createDashboardCard(id,name,price,image,description,category)
             dashboard.innerHTML += new_item
 
