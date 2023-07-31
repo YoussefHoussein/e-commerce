@@ -723,7 +723,7 @@ pages.createAdminCard = (id,name,price,description,category,image) => {
                     </div>
                     <div class="card-header footer flex">
                         <h1>${category}</h1>
-                        <img src="../images/pencil.png" alt="edit" id="edit">
+                        <img src="../images/pencil.png" alt="edit" class="edit">
                         <img src="../images/delete.png" alt="delete" id="delete">
                     </div>
                 </div>
@@ -734,7 +734,7 @@ pages.createAdminCard = (id,name,price,description,category,image) => {
 pages.page_admin = async () => {
     const admin_dashboard = pages.getElement("admin-container")
     try{
-        const response = await fetch("getAllProductsUrl")
+        const response = await fetch("http://127.0.0.1:8000/api/getproducts")
         const json = await response.json()
         json.forEach(product => {
             const id =product.id;
@@ -742,8 +742,9 @@ pages.page_admin = async () => {
             const price = product.price;
             const description = product.description;
             const category = product.category
-            const image = URL.createObjectURL(product);
-            let new_item = pages.createAdminCard(id,name,price,image,description,category)
+            const image = "http://127.0.0.1:8000/"+product.image
+            console.log(image)
+            let new_item = pages.createAdminCard(id,name,price,description,category,image)
             admin_dashboard.innerHTML += new_item
 
         })
@@ -756,7 +757,7 @@ pages.page_admin = async () => {
     const normal = document.getElementsByClassName("normal")
     const hover = document.getElementsByClassName("hover")
     const add = document.getElementById("add-product")
-    const edit = document.getElementById("edit")
+    const edit = document.getElementsByClassName("edit")
     for(let i =0 ; i< normal.length;i++){
         normal[i].addEventListener('mouseover',function(){
             hover[i].style.display = "flex"
@@ -770,9 +771,12 @@ pages.page_admin = async () => {
     add.addEventListener('click', function(){
         window.location.href = "add_product.html"
     })
-    edit.addEventListener('click',function(){
-        window.location.href = "edit_product.html"
-    })
+    for(let i=0;i<edit.length;i++){
+        edit[i].addEventListener('click',function(){
+            window.location.href = "edit_product.html"
+        })
+    }
+    
 }
 
 pages.page_add_product = () => {
