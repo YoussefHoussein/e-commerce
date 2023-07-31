@@ -753,11 +753,29 @@ pages.page_admin = async () => {
         console.log("Error: "+e)
       }
 
+      
 
+      let ids = []
+      try{
+        const response = await fetch("http://127.0.0.1:8000/api/getproductsids")
+        const json = await response.json()
+        ids = json;
+
+        const edit = document.getElementsByClassName("edit")
+        for(let i=0;i<edit.length;i++){
+            edit[i].addEventListener('click',function(){
+                localStorage.setItem("product_id",ids[i])
+                window.location.href = "edit_product.html"
+            })
+        }
+    }
+      catch(e){
+        console.log("Error: "+e)
+      }
     const normal = document.getElementsByClassName("normal")
     const hover = document.getElementsByClassName("hover")
     const add = document.getElementById("add-product")
-    const edit = document.getElementsByClassName("edit")
+    
     for(let i =0 ; i< normal.length;i++){
         normal[i].addEventListener('mouseover',function(){
             hover[i].style.display = "flex"
@@ -771,11 +789,7 @@ pages.page_admin = async () => {
     add.addEventListener('click', function(){
         window.location.href = "add_product.html"
     })
-    for(let i=0;i<edit.length;i++){
-        edit[i].addEventListener('click',function(){
-            window.location.href = "edit_product.html"
-        })
-    }
+    
     
 }
 
@@ -849,8 +863,100 @@ pages.page_add_product = () => {
     
 
 }
-pages.page_edit_product = () => {
-    pages.handleAdminEditAdd()
+pages.page_edit_product =  () => {
+    const id = localStorage.getItem("product_id")
+    
+    const data = new FormData()
+    data.append("id",id)
+    fetch("http://127.0.0.1:8000/api/getproductsbyid", {
+        method : "POST",
+        body: data
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    } )
+    .then(data => {
+        const name = data.name;
+        const price = data.price
+        const description = data.description
+        const category =data.category
+        const name_input = pages.getElement("name-product")
+        name_input.value = name
+        const price_input = pages.getElement("price")
+        price_input.value= price
+        const description_input = pages.getElement("description")
+        description_input.value=description
+        const category_input = pages.getElement("category")
+        category_input.value=category
+        
+        
+    })
+    .catch(error => console.log(error))
+
+    const edit_button = pages.getElement("edit-button")
+
+    edit_button.addEventListener('click',function(){
+        const name_input = pages.getElement("name-product").value
+        const price_input = pages.getElement("price").value
+        const description_input = pages.getElement("description").value
+        const category_input = pages.getElement("category").value
+        const image_input = pages.getElement("input-image")
+        let image = image_input.files[0] 
+
+
+
+        const container = pages.getElement('product-add-container')
+    const model =pages.getElement('model-add-product')
+    const header = pages.getElement('model-h1-add')
+    const text = pages.getElement('model-h4-add')
+    const button_back = pages.getElement('add-back')
+
+        if (name_input && price_input && description_input && category_input && image_input.files.length !== 0 ) {
+            const data = new FormData();
+            data.append('id',id)
+            data.append('name', name_input);
+            data.append('description', description_input);
+            data.append('price', price_input);
+            data.append('category', category_input);
+            data.append('image', image);
+            
+            fetch('http://127.0.0.1:8000/api/editproduct', {
+                method: 'POST',
+                body: data,
+            })
+            .then((response) => {
+               if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            return response.json();
+      })
+      .then((data) => {
+        if (data.status === 'success') {
+          
+          window.location.href = 'admin.html';
+        } else {
+          
+          console.error('Error:', data.message);
+        }
+      })
+      .catch((error) => {
+        console.error('Fetch Error:', error);
+      });
+  } else {
+            container.style.display ="none"
+            model.style.display ="flex"
+            header.innerHTML = "Warning !!"
+            text.innerHTML = "You should fill all the fields"
+    
+  }
+  button_back.addEventListener('click',function(){
+    window.location.href = "edit_product.html"
+})
+
+    })
 }
 
 pages.handleNavbar = (menu, drop , drop_items) => {

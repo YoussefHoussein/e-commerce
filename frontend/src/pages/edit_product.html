@@ -10,10 +10,8 @@
     <div class="main add-product-main flex">
         <div class="login-container main-body add-product flex" id="product-add-container">
             <h1>Edit Product</h1>
-            <input type="file" id="input-image" class="input-image" >
-            <div class="upload-image flex" id="image-holder">
-                <p id="text-upload">Upload image</p>
-            </div>
+            <input type="file" id="input-image" >
+
             <div class="input-container add-input flex">
                 <div><label for="product_name">Product Name</label></div>
                 <input type="text" name="product_name"  placeholder="product name" class="input-login" id="name-product">
@@ -26,15 +24,11 @@
                 <div><label for="description">Description</label></div>
                 <textarea type="text" name="description"  placeholder="description" class="input-login" id="description"></textarea>
             </div>
-            <div class="role category flex" id="cat">
-                <h4>Cateogry</h4>
-                <div><i class="arrow down"></i></div>
+            <div class="input-container add-input flex">
+                <div><label for="category">Cateogry</label></div>
+                <input type="text" name="category"  placeholder="category" class="input-login" id="category">
             </div>
-            <div class="role-choose" id="cat-menu">
-                <div class="choose choose-cat">cat1</div>
-                <div class="choose choose-cat">cat2 "upload from database"</div>
-            </div>
-            <button class="login-button" id="add-button">Add</button>
+            <button class="login-button" id="edit-button">Edit</button>
         </div>
         <div class="model main-body" id="model-add-product">
             <h1 id="model-h1-add"></h1>
