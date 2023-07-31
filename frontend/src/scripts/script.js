@@ -724,7 +724,7 @@ pages.createAdminCard = (id,name,price,description,category,image) => {
                     <div class="card-header footer flex">
                         <h1>${category}</h1>
                         <img src="../images/pencil.png" alt="edit" class="edit">
-                        <img src="../images/delete.png" alt="delete" id="delete">
+                        <img src="../images/delete.png" alt="delete" class="delete">
                     </div>
                 </div>
                 <div class="id-field" id="id_field">${id}</div>
@@ -766,6 +766,25 @@ pages.page_admin = async () => {
             edit[i].addEventListener('click',function(){
                 localStorage.setItem("product_id",ids[i])
                 window.location.href = "edit_product.html"
+            })
+        }
+        const delete_buttons = document.getElementsByClassName("delete")
+        for(let i=0;i<edit.length;i++){
+            delete_buttons[i].addEventListener('click',function(){
+                const data = new FormData()
+                data.append("id",ids[i])
+                
+                fetch('http://127.0.0.1:8000/api/deleteproduct',{
+                    method: 'POST',
+                    body: data,
+                })
+                .then(response => response.json())
+                .then(data => {
+                if(data.status == "success"){
+                    window.location.href = "admin.html"
+                }
+            })
+            .catch(error => console.log(error))
             })
         }
     }
