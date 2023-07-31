@@ -170,8 +170,8 @@ pages.createDashboardCard = (id,name,price,image,description,category) =>{
                 </div>
                 <div class="card-header footer flex">
                     <h1>${category}</h1>
-                    <img src="../images/love.png" alt="favorite" id="favorite-image">
-                    <img src="../images/shopping-cart.png" alt="cart" id="cart-image">
+                    <img src="../images/love.png" alt="favorite" class="favorite-image">
+                    <img src="../images/shopping-cart.png" alt="cart" class="cart-image">
                 </div>
                 <div class="id-field" id="id_field">${id}</div>
             </div>
@@ -193,8 +193,9 @@ pages.hover = () =>{
     }
 }
 pages.page_dashboard = async () => {
-    let isFavorite = false
-    let inCart = false
+    let isFavorite = []
+    let inCart = []
+    let product_id_array =[]
     const dashboard = pages.getElement("dash-board-container")
     try{
         const response = await fetch("http://127.0.0.1:8000/api/getproducts")
@@ -208,41 +209,10 @@ pages.page_dashboard = async () => {
             const image = product.image
             let new_item = pages.createDashboardCard(id,name,price,image,description,category)
             dashboard.innerHTML += new_item
+            product_id_array.push(id)
 
-            const data = new FormData()
-            data.append("id",id)
-
-             
-            fetch("url for search the product in favorite", {
-             method : "POST",
-            body: data
-            })
-            .then(response => response.json())
-            .then(data => {
-             if(data == 1 ){
-                isFavorite =true
-            }
-            else{
-                isFavorite = false
-            }
-         })
-            .catch(error => console.log(error))
-                });
-
-                fetch("url for search the product in cart", {
-                    method : "POST",
-                    body: data
-                })
-                .then(response => response.json())
-                .then(data => {
-                  if(data == 1 ){
-                    inCart =true
-                  }
-                  else{
-                    inCart = false
-                  }
-                })
-                .catch(error => console.log(error))
+            });
+            localStorage.setItem("array",product_id_array)
             
         
       }
@@ -250,122 +220,183 @@ pages.page_dashboard = async () => {
         console.log("Error: "+e)
       }
     
-    
-    
-
-    const fav = pages.getElement("favorite-image")
-
-    if(isFavorite){
-        fav.src = "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
-    }
-    else{
-        fav.src = "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
-    }
-    
-    fav.addEventListener('click',function(){
+    let array = localStorage.getItem("array")
+    const array_id = array.split(",");
+    for(let i =0 ;i<array_id.length;i++){
+        const data = new FormData()
+        data.append("favorite_id",localStorage.getItem("favorite_id"))
+        data.append("product_id",array_id[i])
         
-        if(!isFavorite){
-            const favorite_id = localStorage.getItem("favorite_id")
-            const product_id = pages.getElement("id_field").innerHTML
-            const data =  new FormData()
-            data.append("favorite_id",favorite_id)
-            data.append("product_id",product_id)
 
-            fetch("url for insert the product into favorite", {
-                method : "POST",
-                body: data
+             
+            fetch("http://127.0.0.1:8000/api/checkproductinfavorite", {
+             method : "POST",
+            body: data
             })
             .then(response => response.json())
             .then(data => {
-                if(data.status == "success"){
-                    fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
-                    isFavorite = true
-                    pages.hover()
-                }
-            })
-            .catch(error => console.log(error))
-            
-        }
-        else{
-            const product_id = pages.getElement("id_field").innerHTML
-            const data =  new FormData()
-            data.append("product_id",product_id)
+                
+             if(data.status == "success"){
+                isFavorite.push(true)
+                
+            }
+            else{
+                isFavorite.push(false)
+            }
+            if(isFavorite[i]){
+                
+                fav[i].src = "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
+            }
+            else{
+                fav[i].src = "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
+            }
 
-            fetch("url for remove the product from favorite", {
-                method : "POST",
-                body: data
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.status == "success"){
-                    fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
-                    isFavorite = false
-                    pages.hover()
+            fav[i].addEventListener('click',function(){
+        
+                if(!isFavorite[i]){
+                    const favorite_id = localStorage.getItem("favorite_id")
+                    const product_id = array_id[i]
+                    const data =  new FormData()
+                    data.append("favorite_id",favorite_id)
+                    data.append("product_id",product_id)
+        
+                    fetch("http://127.0.0.1:8000/api/inserttofavorite", {
+                        method : "POST",
+                        body: data
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.status == "success"){
+                            fav[i].src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
+                            window.location.href = "dashboard.html"
+                            pages.hover()
+                        }
+                    })
+                    .catch(error => console.log(error))
+                    
+                }
+                else{
+                    const favorite_id = localStorage.getItem("favorite_id")
+                    const product_id = array_id[i]
+                    const data =  new FormData()
+                    data.append("favorite_id",favorite_id)
+                    data.append("product_id",product_id)
+        
+                    fetch("http://127.0.0.1:8000/api/removeproductfromfavorite", {
+                        method : "POST",
+                        body: data
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.status == "success"){
+                            fav[i].src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
+                            window.location.href = "dashboard.html"
+                            pages.hover()
+                        }
+                    })
+                    .catch(error => console.log(error))
+                    
                 }
             })
+         }) 
             .catch(error => console.log(error))
             
-        }
-    })
+            const data1 = new FormData()
+                data1.append("product_id",array_id[i])
+                data1.append("cart_id",localStorage.getItem("cart_id"))
+                
+                fetch("http://127.0.0.1:8000/api/checkproductincart", {
+                    method : "POST",
+                    body: data1
+                })
+                .then(response => response.json())
+                .then(data => {
+                  if(data.status == "success"){
+                    inCart.push(true)
+                  }
+                  else{
+                    inCart.push(false)
+                  }
+                  if(inCart[i]){
+                    cart[i].src= "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart (1).png"
+                }
+            else{
+                cart[i].src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"
+             }
+
+             cart[i].addEventListener('click',function(){
+        
+                if(!inCart[i]){
+                    
+                    const cart_id = localStorage.getItem("cart_id")
+                    const product_id = array_id[i]
+                    const data =  new FormData()
+                    data.append("cart_id",cart_id)
+                    data.append("product_id",product_id)
+        
+                    fetch("http://127.0.0.1:8000/api/inserttocart", {
+                        method : "POST",
+                        body: data
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.status == "success"){
+                            cart[i].src= "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart (1).png"
+                            window.location.href = "dashboard.html"
+                            pages.hover()
+                        }
+                    })
+                    .catch(error => console.log(error))
+                    
+                }
+                else{
+                    const cart_id = localStorage.getItem("cart_id")
+                    const product_id = array_id[i]
+                    const data =  new FormData()
+                    data.append("cart_id",cart_id)
+                    data.append("product_id",product_id)
+        
+                    fetch("http://127.0.0.1:8000/api/removeproductfromcart", {
+                        method : "POST",
+                        body: data
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.status == "success"){
+                            cart[i].src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"
+                            window.location.href = "dashboard.html"
+                            pages.hover()
+                        }
+                    })
+                    .catch(error => console.log(error))
+                    
+                    
+                }
+            })
+                })
+                .catch(error => console.log(error))
+                
+    }
+    const cart = document.getElementsByClassName("cart-image")
+    
+    const fav = document.getElementsByClassName("favorite-image")
+        
+    
+    
+    
+    
+
+   
+    
+    
 
     
-    const cart = pages.getElement("cart-image")
-    if(inCart){
-        cart.src= "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart (1).png"
-    }
-    else{
-        cart.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"
-    }
-    cart.addEventListener('click',function(){
-        
-        if(!inCart){
-            
-            const cart_id = localStorage.getItem("cart_id")
-            const product_id = pages.getElement("id_field").innerHTML
-            const data =  new FormData()
-            data.append("cart_id",cart_id)
-            data.append("product_id",product_id)
-
-            fetch("url for insert the product into cart", {
-                method : "POST",
-                body: data
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.status == "success"){
-                    cart.src= "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart (1).png"
-                    inCart = true
-                    pages.hover()
-                }
-            })
-            .catch(error => console.log(error))
-            
-        }
-        else{
-            const product_id = pages.getElement("id_field").innerHTML
-            const data =  new FormData()
-            data.append("product_id",product_id)
-
-            fetch("url for remove the product from cart", {
-                method : "POST",
-                body: data
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.status == "success"){
-                    cart.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/shopping-cart.png"
-                    inCart =false
-                    pages.hover()
-                }
-            })
-            .catch(error => console.log(error))
-            
-            
-        }
-    })
+    
+    
     
     pages.hover()
-
+    const normal = document.getElementsByClassName("normal")
+    const hover = document.getElementsByClassName("hover")
     const link = document.getElementsByClassName("navbar-link")
     link[0].style.textDecoration  = "underline"
     link[1].style.textDecoration  = "none"
