@@ -699,7 +699,33 @@ pages.page_admin = () => {
 }
 
 pages.page_add_product = () => {
-    pages.handleAdminEditAdd()
+    const image = pages.handleAdminEditAdd()
+    const name = pages.getElement('name-product').value
+    const price = pages.getElement('price').value
+    const description = pages.getElement('description').value
+    const category = pages.getElement("category").value
+    const add_button = pages.getElement('add-button')
+
+    add_button.addEventListener('click',function(){
+        const data = new FormData()
+        data.append("name",name)
+        data.append("description",description)
+        data.append("price",price)
+        data.append("image",image)
+        data.append("category",category)
+
+        fetch("add product url" , {
+                method : "POST",
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status == "success"){
+                    window.location.href = "admin.html"
+                }
+            })
+            .catch(error => console.log(error))
+        })
 
 }
 pages.page_edit_product = () => {
@@ -723,21 +749,9 @@ pages.handleAdminEditAdd = () => {
             image_holder.style.backgroundImage = `url(${image})`
         })
         reader.readAsDataURL(this.files[0])
+        
     })
-    const cat = pages.getElement("cat")
-    const cat_menu = pages.getElement("cat-menu")
-    const cat_items = document.getElementsByClassName("choose-cat")
-    let cat_choosed = false
-    cat.addEventListener('click',function(){
-        cat_menu.style.display = "block"
-        for(let i = 0; i<cat_items.length ; i++){
-            cat_items[i].addEventListener('click',function(event){
-                event.stopImmediatePropagation();
-                cat_menu.style.display = "none"
-                cat_choosed =true
-            })
-        }
-    })
+    const category = pages.getElement("category").value
     const product_name = pages.getElement('name-product').value
     const product_price = pages.getElement('price').value
     const product_description = pages.getElement('description').value
@@ -748,7 +762,7 @@ pages.handleAdminEditAdd = () => {
     const text = pages.getElement('model-h4-add')
     const button_back = pages.getElement('add-back')
     add_button.addEventListener('click',function(){
-        if(!product_name || !product_price || !product_description || !image_uploaded || !cat_choosed){
+        if(!product_name || !product_price || !product_description || !image_uploaded || !category){
             container.style.display ="none"
             model.style.display ="flex"
             header.innerHTML = "Warning !!"
@@ -758,6 +772,7 @@ pages.handleAdminEditAdd = () => {
     button_back.addEventListener('click',function(){
         window.location.href = "add_product.html"
     })
+    return image
 }
 pages.handleNavbar = (menu, drop , drop_items) => {
     menu.addEventListener('click',function(){
