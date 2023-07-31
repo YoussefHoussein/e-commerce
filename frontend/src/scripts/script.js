@@ -776,81 +776,79 @@ pages.page_admin = async () => {
 }
 
 pages.page_add_product = () => {
-    const image = pages.handleAdminEditAdd()
-    const name = pages.getElement('name-product').value
-    const price = pages.getElement('price').value
-    const description = pages.getElement('description').value
-    const category = pages.getElement("category").value
     const add_button = pages.getElement('add-button')
 
     add_button.addEventListener('click',function(){
-        const data = new FormData()
-        data.append("name",name)
-        data.append("description",description)
-        data.append("price",price)
-        data.append("image",image)
-        data.append("category",category)
+        const name = pages.getElement('name-product').value
+        const price = pages.getElement('price').value
+        const description = pages.getElement('description').value
+        const category = pages.getElement("category").value
+        const image_input = pages.getElement("input-image")
+       
 
-        fetch("add product url" , {
-                method : "POST",
-                body: data
+        const container = pages.getElement('product-add-container')
+    const model =pages.getElement('model-add-product')
+    const header = pages.getElement('model-h1-add')
+    const text = pages.getElement('model-h4-add')
+    const button_back = pages.getElement('add-back')
+        
+        
+              
+        let image = image_input.files[0]        
+                
+                
+                
+               
+
+        if (name && price && description && category && image_input.files.length !== 0 ) {
+            const data = new FormData();
+            data.append('name', name);
+            data.append('description', description);
+            data.append('price', price);
+            data.append('category', category);
+            data.append('image', image);
+            
+            fetch('http://127.0.0.1:8000/api/addproduct', {
+                method: 'POST',
+                body: data,
             })
-            .then(response => response.json())
-            .then(data => {
-                if(data.status == "success"){
-                    window.location.href = "admin.html"
+            .then((response) => {
+               if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-            })
-            .catch(error => console.log(error))
-        })
+            return response.json();
+      })
+      .then((data) => {
+        if (data.status === 'success') {
+          
+          window.location.href = 'admin.html';
+        } else {
+          
+          console.error('Error:', data.message);
+        }
+      })
+      .catch((error) => {
+        console.error('Fetch Error:', error);
+      });
+  } else {
+            container.style.display ="none"
+            model.style.display ="flex"
+            header.innerHTML = "Warning !!"
+            text.innerHTML = "You should fill all the fields"
+    
+  }
+  button_back.addEventListener('click',function(){
+    window.location.href = "add_product.html"
+})
+
+    })  
+    
 
 }
 pages.page_edit_product = () => {
     pages.handleAdminEditAdd()
 }
-pages.handleAdminEditAdd = () => {
-    const image_holder = pages.getElement("image-holder")
-    const image_input = pages.getElement("input-image")
-    let image =""
-    const upload_text = pages.getElement("text-upload")
-    let image_uploaded = image_holder.style.backgroundImage != ''
-    image_holder.addEventListener('click',function(){
-        image_input.click()
-    })
-    image_input.addEventListener('change',function(){
-        const reader = new FileReader()
-        reader.addEventListener('load',function(){
-            image = reader.result
-            upload_text.style.display="none"
-            image_uploaded =true
-            image_holder.style.backgroundImage = `url(${image})`
-        })
-        reader.readAsDataURL(this.files[0])
-        
-    })
-    const category = pages.getElement("category").value
-    const product_name = pages.getElement('name-product').value
-    const product_price = pages.getElement('price').value
-    const product_description = pages.getElement('description').value
-    const add_button = pages.getElement('add-button')
-    const container = pages.getElement('product-add-container')
-    const model =pages.getElement('model-add-product')
-    const header = pages.getElement('model-h1-add')
-    const text = pages.getElement('model-h4-add')
-    const button_back = pages.getElement('add-back')
-    add_button.addEventListener('click',function(){
-        if(!product_name || !product_price || !product_description || !image_uploaded || !category){
-            container.style.display ="none"
-            model.style.display ="flex"
-            header.innerHTML = "Warning !!"
-            text.innerHTML = "You should fill all the fields"
-        }
-    })
-    button_back.addEventListener('click',function(){
-        window.location.href = "add_product.html"
-    })
-    return image
-}
+
 pages.handleNavbar = (menu, drop , drop_items) => {
     menu.addEventListener('click',function(){
         console.log("menu clicked")
