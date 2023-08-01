@@ -583,62 +583,6 @@ pages.page_cart = () => {
     })
     .catch(error => console.log(error))
 
-    
-    
-    // const fav = pages.getElement("favorite-image")
-
-    // if(isFavorite){
-    //     fav.src = "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
-    // }
-    // else{
-    //     fav.src = "file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
-    // }
-    
-    // fav.addEventListener('click',function(){
-        
-    //     if(!isFavorite){
-    //         const favorite_id = localStorage.getItem("favorite_id")
-    //         const product_id = pages.getElement("id_field").innerHTML
-    //         const data =  new FormData()
-    //         data.append("favorite_id",favorite_id)
-    //         data.append("product_id",product_id)
-
-    //         fetch("url for insert the product into favorite", {
-    //             method : "POST",
-    //             body: data
-    //         })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if(data.status == "success"){
-    //                 fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/heart.png"
-    //                 isFavorite = true
-    //                 pages.hover()
-    //             }
-    //         })
-    //         .catch(error => console.log(error))
-            
-    //     }
-    //     else{
-    //         const product_id = pages.getElement("id_field").innerHTML
-    //         const data =  new FormData()
-    //         data.append("product_id",product_id)
-
-    //         fetch("url for remove the product from favorite", {
-    //             method : "POST",
-    //             body: data
-    //         })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if(data.status == "success"){
-    //                 fav.src="file:///C:/Users/Youssef/Desktop/e-commerce/frontend/src/images/love.png"
-    //                 isFavorite = false
-    //                 pages.hover()
-    //             }
-    //         })
-    //         .catch(error => console.log(error))
-            
-    //     }
-    // })
 
     const link = document.getElementsByClassName("navbar-link")
 
