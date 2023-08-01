@@ -24,6 +24,7 @@ Route::post('/signup',[LoginSignupController::class,'signUp']);
 Route::post('/login',[LoginSignupController::class,'login']);
 
 Route::post('/addproduct',[CrudProducts::class,'addNewProduct']);
+Route::post('/getImage',[CrudProducts::class,'getImage']);
 Route::get('/getproducts',[CrudProducts::class,'getAllProducts']);
 Route::get('/getproductsids',[CrudProducts::class,'getProductsIds']);
 Route::post('/getproductsbyid',[CrudProducts::class,'getDataById']);

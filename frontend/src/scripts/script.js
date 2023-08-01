@@ -638,11 +638,27 @@ pages.page_admin = async () => {
             const price = product.price;
             const description = product.description;
             const category = product.category
-            const image = "http://127.0.0.1:8000/"+product.image
-            console.log(image)
+            const image = product.image
             let new_item = pages.createAdminCard(id,name,price,description,category,image)
             admin_dashboard.innerHTML += new_item
+            
 
+            // const data = new FormData()
+            // data.append("product_id",id)
+            // fetch("http://127.0.0.1:8000/api/getImage",{
+            //     method: 'POST',
+            //     body: data,
+            // })
+            // .then(response => response.blob())
+            // .then(blob => {
+            //     const imageURL = URL.createObjectURL(blob);
+            //     console.log(imageURL)
+                
+            // })
+            // .catch(error => {
+            //     console.error('Error fetching image:', error);
+            // });
+            
         })
     }
       catch(e){

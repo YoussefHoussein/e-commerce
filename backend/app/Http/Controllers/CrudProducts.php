@@ -12,25 +12,28 @@ class CrudProducts extends Controller
         $description = $request->input('description');
         $price = $request->input('price');
         $category = $request->input('category');
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/images');
-        }
-        else{
-            return response()->json(['error' => 'Image not received'], 400);
-        }
-
-        
+        $image = $request->file('image');
+       
 
         $product = new Product();
         $product->name = $name;
         $product->description = $description;
         $product->price = $price;
         $product->category = $category;
-        $product->image= $imagePath;
+        $product->image= $image;
 
         $product->save();
         
         return json_encode(["status"=>"success"]);
+    }
+    public function getImage(Request $request){
+        $id = $request->input("product_id");
+        $product = Product::find($id);
+        if($product){
+            return response($product->image)->header('Content-Type', 'image/jpeg');
+        }
+        return  'Image not found';
+
     }
     public function getAllProducts(){
         $products = Product::all();
