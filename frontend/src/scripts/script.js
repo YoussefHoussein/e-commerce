@@ -719,7 +719,7 @@ pages.page_add_product = () => {
         const image_input = pages.getElement("input-image")
        
 
-        const container = pages.getElement('product-add-container')
+    const container = pages.getElement('product-add-container')
     const model =pages.getElement('model-add-product')
     const header = pages.getElement('model-h1-add')
     const text = pages.getElement('model-h4-add')
@@ -727,7 +727,7 @@ pages.page_add_product = () => {
         
         
               
-        let image = image_input.files[0]        
+    let image = image_input.files[0]        
                 
                 
                 
